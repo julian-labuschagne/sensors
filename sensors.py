@@ -11,16 +11,8 @@ GPIO.setwarnings(True)
 # Setup Pins
 gpio_pins = [22, 27, 17, 23, 24, 25]
 for gpio_pin in gpio_pins:
-    GPIO.setup(gpio_pin, GPIO.OUT)
-
-# Turn Leds off
-GPIO.output(22, GPIO.LOW)
-GPIO.output(27, GPIO.LOW)
-GPIO.output(17, GPIO.LOW)
-
-GPIO.output(23, GPIO.LOW)
-GPIO.output(24, GPIO.LOW)
-GPIO.output(25, GPIO.LOW)
+    GPIO.setup(gpio_pin, GPIO.OUT) # Setup pin as output
+    GPIO.output(gpio_pin, GPIO.LOW) # Set output to LOW to turn off the pins
 
 # Open SPI bus
 spi = spidev.SpiDev()
