@@ -10,13 +10,9 @@ GPIO.setwarnings(True)
 GPIO.cleanup()
 
 # Setup Pins
-GPIO.setup(22, GPIO.OUT)
-GPIO.setup(27, GPIO.OUT)
-GPIO.setup(17, GPIO.OUT)
-
-GPIO.setup(23, GPIO.OUT)
-GPIO.setup(24, GPIO.OUT)
-GPIO.setup(25, GPIO.OUT)
+gpio_pins = [22, 27, 17, 23, 24, 25]
+for gpio_pin in gpio_pins
+    GPIO.setup(gpio_pin, GPIO.OUT)
 
 # Turn Leds off
 GPIO.output(22, GPIO.LOW)
