@@ -7,11 +7,10 @@ import os
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
-GPIO.cleanup()
 
 # Setup Pins
 gpio_pins = [22, 27, 17, 23, 24, 25]
-for gpio_pin in gpio_pins
+for gpio_pin in gpio_pins:
     GPIO.setup(gpio_pin, GPIO.OUT)
 
 # Turn Leds off
@@ -41,50 +40,54 @@ pot_channel = 1
 # Define delay between readings
 delay = .5
 
-while True:
-    # Read the light sensor data
-    light_level = ReadChannel(light_channel)
-    if(light_level < 256):
-        GPIO.output(23, GPIO.LOW)
-        GPIO.output(24, GPIO.LOW)
-        GPIO.output(25, GPIO.LOW)
-    elif(light_level < 512) and (light_level > 256):
-        GPIO.output(23, GPIO.HIGH)
-        GPIO.output(24, GPIO.LOW)
-        GPIO.output(25, GPIO.LOW)
-    elif(light_level < 768) and (light_level > 512):
-        GPIO.output(23, GPIO.HIGH)
-        GPIO.output(24, GPIO.HIGH)
-        GPIO.output(25, GPIO.LOW)
-    elif(light_level < 1024) and (light_level > 768):
-        GPIO.output(23, GPIO.HIGH)
-        GPIO.output(24, GPIO.HIGH)
-        GPIO.output(25, GPIO.HIGH)
+try:
+    while True:
+        # Read the light sensor data
+        light_level = ReadChannel(light_channel)
+        if(light_level < 256):
+            GPIO.output(23, GPIO.LOW)
+            GPIO.output(24, GPIO.LOW)
+            GPIO.output(25, GPIO.LOW)
+        elif(light_level < 512) and (light_level > 256):
+            GPIO.output(23, GPIO.HIGH)
+            GPIO.output(24, GPIO.LOW)
+            GPIO.output(25, GPIO.LOW)
+        elif(light_level < 768) and (light_level > 512):
+            GPIO.output(23, GPIO.HIGH)
+            GPIO.output(24, GPIO.HIGH)
+            GPIO.output(25, GPIO.LOW)
+        elif(light_level < 1024) and (light_level > 768):
+            GPIO.output(23, GPIO.HIGH)
+            GPIO.output(24, GPIO.HIGH)
+            GPIO.output(25, GPIO.HIGH)
 
-    # Read the pot data
-    pot_level = ReadChannel(pot_channel)
-    if(pot_level < 256):
-        GPIO.output(22, GPIO.LOW)
-        GPIO.output(27, GPIO.LOW)
-        GPIO.output(17, GPIO.LOW)
-    elif(pot_level < 512) and (pot_level > 256):
-        GPIO.output(22, GPIO.HIGH)
-        GPIO.output(27, GPIO.LOW)
-        GPIO.output(17, GPIO.LOW)
-    elif(pot_level < 768) and (pot_level > 512):
-        GPIO.output(22, GPIO.HIGH)
-        GPIO.output(27, GPIO.HIGH)
-        GPIO.output(17, GPIO.LOW)
-    elif(pot_level < 1024) and (pot_level > 768):
-        GPIO.output(22, GPIO.HIGH)
-        GPIO.output(27, GPIO.HIGH)
-        GPIO.output(17, GPIO.HIGH)
+        # Read the pot data
+        pot_level = ReadChannel(pot_channel)
+        if(pot_level < 256):
+            GPIO.output(22, GPIO.LOW)
+            GPIO.output(27, GPIO.LOW)
+            GPIO.output(17, GPIO.LOW)
+        elif(pot_level < 512) and (pot_level > 256):
+            GPIO.output(22, GPIO.HIGH)
+            GPIO.output(27, GPIO.LOW)
+            GPIO.output(17, GPIO.LOW)
+        elif(pot_level < 768) and (pot_level > 512):
+            GPIO.output(22, GPIO.HIGH)
+            GPIO.output(27, GPIO.HIGH)
+            GPIO.output(17, GPIO.LOW)
+        elif(pot_level < 1024) and (pot_level > 768):
+            GPIO.output(22, GPIO.HIGH)
+            GPIO.output(27, GPIO.HIGH)
+            GPIO.output(17, GPIO.HIGH)
 
-    # Print our results
-    print "--------------------"
-    print ("Light: {}".format(light_level))
-    print ("Pot: {}".format(pot_level))
+        # Print our results
+        print "--------------------"
+        print ("Light: {}".format(light_level))
+        print ("Pot: {}".format(pot_level))
 
-    # Wait before repeating loop
-    time.sleep(delay)
-    os.system('clear')
+        # Wait before repeating loop
+        time.sleep(delay)
+        os.system('clear')
+
+except KeyboardInterrupt:
+    GPIO.cleanup()	
