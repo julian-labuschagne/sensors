@@ -4,6 +4,16 @@ import RPi.GPIO as GPIO
 import spidev
 import time
 import os
+import sqlite3
+
+# Create or open a data.db database 
+db = sqlite3.connect('data.db')
+curs = db.cursor()
+# If a sensors table does not exist create one
+curs.execute("CREATE TABLE IF NOT EXISTS sensors (timestamp DATETIME, pot INT NOT NULL, light INT NOT NULL)")
+db.commit()
+db.close()
+
 
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(True)
@@ -30,7 +40,7 @@ light_channel = 0
 pot_channel = 1
 
 # Define delay between readings
-delay = 1
+delay = 5
 
 try:
     while True:
@@ -72,6 +82,18 @@ try:
             GPIO.output(27, GPIO.HIGH)
             GPIO.output(17, GPIO.HIGH)
 
+        # Write values to the database
+        try:
+            db = sqlite3.connect('data.db')
+            curs = db.cursor()
+            curs.execute("INSERT INTO sensors VALUES(datetime('now'), (?), (?))", (pot_level, light_level))
+            db.commit()
+        except Exception as e:
+			db.rollback()
+        finally:
+            db.close()
+		
+
         # Print our results
         print "--------------------"
         print ("Light: {}".format(light_level))
@@ -83,3 +105,4 @@ try:
 
 except KeyboardInterrupt:
     GPIO.cleanup()	
+	
