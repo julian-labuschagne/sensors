@@ -40,7 +40,7 @@ light_channel = 0
 pot_channel = 1
 
 # Define delay between readings
-delay = 5
+delay = 60
 
 try:
     while True:
